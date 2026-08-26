@@ -42,7 +42,7 @@ export default function Ministries() {
             Card 4 (Prayer): 1-col
             Card 5 (Community): Wide 2-col span on sm+ */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {MINISTRIES.map((min, index) => {
+          {ministries.map((min, index) => {
             const IconComponent = MINISTRY_ICONS[min.id] || Sparkles;
             const isWide = index === 0 || index === 5; // Asymmetrical span for first and last
 
