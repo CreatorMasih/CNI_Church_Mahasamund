@@ -109,10 +109,10 @@ export default function Hero({ onOpenVideo }) {
             className="space-y-1"
           >
             <h1 className="font-serif font-bold text-[#17202B] leading-[1.02] tracking-tight" style={{ fontSize: 'clamp(2.5rem, 6.8vw, 5.2rem)' }}>
-              {hero.mainHeading || 'CNI CHURCH'}
-            </h1>
-            <h1 className="font-serif italic font-light leading-[1.02]" style={{ fontSize: 'clamp(2.5rem, 6.8vw, 5.2rem)', color: '#7E2634' }}>
-              {hero.subHeading || 'MAHASAMUND'}
+              {hero.mainHeading || 'CNI CHURCH'}{' '}
+              <span className="italic font-light text-[#7E2634] block sm:inline">
+                {hero.subHeading || 'MAHASAMUND'}
+              </span>
             </h1>
           </motion.div>
 
@@ -124,6 +124,10 @@ export default function Hero({ onOpenVideo }) {
           >
             "{hero.tagline || 'A Place of Faith, Hope & Love.'}"
           </motion.p>
+
+          <p className="text-xs sm:text-sm text-[#6E6A63] max-w-md mx-auto lg:mx-0 leading-relaxed font-light">
+            Welcome to <strong className="font-semibold text-[#17202B]">CNI Church Mahasamund</strong> (St. Peter's Church), a vibrant Christian church in Mahasamund dedicated to God's Word, worship, and community fellowship.
+          </p>
 
           <motion.div
             initial={{ scaleX: 0 }}
@@ -194,7 +198,7 @@ export default function Hero({ onOpenVideo }) {
             <div className="relative overflow-hidden shadow-2xl rounded-2xl group" style={{ border: '4px solid #FFFDF8' }}>
               <motion.img
                 src={churchPhoto}
-                alt="St. Peter's Church — CNI Church Mahasamund"
+                alt="St. Peter's Church — CNI Church Mahasamund, historic Christian church building in Mahasamund, Chhattisgarh"
                 loading="eager"
                 className="w-full h-auto object-cover block"
                 style={{

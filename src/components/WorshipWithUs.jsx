@@ -223,7 +223,7 @@ export default function WorshipWithUs() {
                 <iframe
                   ref={iframeRef}
                   src={autoplayUrl}
-                  title="Worship With Us — CNI Church Mahasamund"
+                  title="Worship With Us — CNI Church Mahasamund, Christian worship services and community praise in Mahasamund"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowFullScreen
                   className="w-full h-full border-0 pointer-events-auto"

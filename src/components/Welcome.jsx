@@ -135,7 +135,7 @@ export default function Welcome({ onOpenVisit }) {
             >
               <img
                 src={churchPhoto}
-                alt="St. Peter's Church — CNI Church Mahasamund"
+                alt="St. Peter's Church (CNI Church Mahasamund) — Historic Christian church in Mahasamund, Chhattisgarh since 1909"
                 loading="lazy"
                 className="w-full object-cover block transition-transform duration-700 ease-out group-hover:scale-105"
                 style={{
