@@ -174,9 +174,16 @@ export default function Footer({ onOpenVisit }) {
       {/* ── COPYRIGHT FOOTER ── */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#9E9A91]">
         <p className="text-center sm:text-left">© 2026 CNI Church Mahasamund. All Rights Reserved.</p>
-        <span className="font-bold text-gold-soft flex items-center space-x-1">
-          <span>✝ To God Be The Glory</span>
-        </span>
+        <div className="flex items-center space-x-4">
+          <span className="font-bold text-gold-soft">✝ To God Be The Glory</span>
+          <a
+            href="/admin/login"
+            className="hover:text-gold-soft transition-colors underline font-medium"
+            title="Church Admin CMS Login"
+          >
+            🔐 Admin Portal
+          </a>
+        </div>
       </div>
     </footer>
   );

@@ -117,6 +117,15 @@ export default function Navbar({ onOpenVisit }) {
               <MapPin className="w-3.5 h-3.5 text-gold-soft" />
               <span>PLAN YOUR VISIT</span>
             </button>
+
+            <a
+              href="/admin/login"
+              className="flex items-center space-x-1.5 px-3.5 py-2 rounded-full font-bold text-[10px] uppercase tracking-wider text-[#7E2634] hover:bg-burgundy/10 transition-colors"
+              style={{ border: '1px solid rgba(126, 38, 52, 0.3)', minHeight: '40px' }}
+              title="Church Admin CMS Login"
+            >
+              <span>🔐 ADMIN</span>
+            </a>
           </div>
 
           {/* Mobile Menu Trigger */}
@@ -201,6 +210,14 @@ export default function Navbar({ onOpenVisit }) {
                 >
                   ✝ PLAN YOUR VISIT
                 </button>
+                <a
+                  href="/admin/login"
+                  onClick={closeMobileMenu}
+                  className="w-full py-3 rounded-xl font-bold text-xs uppercase tracking-widest text-center block mt-2 text-[#7E2634] bg-burgundy/10 border border-gold/30"
+                  style={{ minHeight: '46px' }}
+                >
+                  🔐 ADMIN CMS PORTAL
+                </a>
               </div>
             </motion.div>
           </>
