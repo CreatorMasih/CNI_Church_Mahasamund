@@ -2,9 +2,12 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Heart, Sparkles, ArrowUpRight, Shield } from 'lucide-react';
 
-const CHURCH_PHOTO = '/church.jpg';
+import { useCms } from '../context/CmsContext';
 
 export default function Welcome({ onOpenVisit }) {
+  const { data } = useCms();
+  const about = data.about || {};
+  const churchPhoto = about.photo || '/church.jpg';
   return (
     <section
       id="about"

@@ -2,7 +2,10 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Send, CheckCircle2, ShieldCheck, Sparkles, Heart } from 'lucide-react';
 
+import { useCms } from '../context/CmsContext';
+
 export default function Prayer() {
+  const { addPrayerRequest } = useCms();
   const [formData, setFormData] = useState({ name: '', contact: '', request: '', isPrivate: false });
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -11,7 +14,8 @@ export default function Prayer() {
     e.preventDefault();
     if (!formData.request.trim()) return;
     setLoading(true);
-    setTimeout(() => { setLoading(false); setSubmitted(true); }, 1000);
+    addPrayerRequest(formData);
+    setTimeout(() => { setLoading(false); setSubmitted(true); }, 800);
   };
 
   const handleReset = () => {

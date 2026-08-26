@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, Clock, Phone, Mail, Heart, Shield } from 'lucide-react';
-import { IMAGES } from '../data/churchData';
+import { useCms } from '../context/CmsContext';
 
 const CHURCH_PHOTO = '/church.jpg';
 
@@ -17,6 +17,8 @@ const NAV_LINKS_FOOTER = [
 ];
 
 export default function Footer({ onOpenVisit }) {
+  const { data } = useCms();
+  const settings = data.settings || {};
   return (
     <footer id="footer" className="relative overflow-hidden pt-16 sm:pt-24" style={{ background: 'linear-gradient(180deg, #F6F1E7 0%, #1D2733 35%, #17202B 100%)' }}>
 

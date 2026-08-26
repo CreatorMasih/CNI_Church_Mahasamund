@@ -1,8 +1,12 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Clock, Calendar, BookOpen, HeartHandshake, ArrowRight } from 'lucide-react';
+import { useCms } from '../context/CmsContext';
 
 export default function ServiceInfo() {
+  const { data } = useCms();
+  const info = data.serviceInfo || {};
+
   return (
     <section id="service" className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-6 sm:-mt-10">
       <motion.div
@@ -39,7 +43,7 @@ export default function ServiceInfo() {
                 Sunday Worship
               </h3>
               <p className="text-xs font-semibold" style={{ color: '#7E2634' }}>
-                Sunday • 8:00 AM
+                {info.sundayTiming || 'Sunday • 8:00 AM'}
               </p>
             </div>
           </a>
@@ -67,7 +71,7 @@ export default function ServiceInfo() {
                 className="inline-block mt-0.5 px-2 py-0.2 rounded-full text-[10px] font-bold tracking-wider"
                 style={{ background: 'rgba(126, 38, 52, 0.08)', color: '#7E2634' }}
               >
-                Saturday • 6:00 PM
+                {info.youthTiming || 'Saturday • 6:00 PM'}
               </span>
             </div>
           </a>
@@ -88,10 +92,10 @@ export default function ServiceInfo() {
                 📖 VERSE OF THE DAY
               </span>
               <blockquote className="text-xs font-serif italic text-[#17202B] leading-snug line-clamp-2 mt-0.5">
-                "The Lord is my shepherd; I shall not want."
+                "{info.verseOfDay || 'The Lord is my shepherd; I shall not want.'}"
               </blockquote>
               <span className="block text-[10px] font-bold uppercase tracking-wider mt-0.5" style={{ color: '#7E2634' }}>
-                — Psalm 23:1
+                {info.verseOfDayReference || '— Psalm 23:1'}
               </span>
             </div>
           </div>

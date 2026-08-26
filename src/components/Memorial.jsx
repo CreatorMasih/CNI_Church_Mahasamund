@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
-import { MEMORIALS } from '../data/churchData';
+import { useCms } from '../context/CmsContext';
 
 export default function Memorial() {
+  const { data } = useCms();
   const [litCandles, setLitCandles] = useState([1]);
+
+  const memorials = data.memorials || [];
 
   const toggleCandle = (id) => {
     setLitCandles(prev =>
@@ -49,7 +52,7 @@ export default function Memorial() {
 
         {/* Tribute Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-          {MEMORIALS.map((item) => {
+          {memorials.map((item) => {
             const isLit = litCandles.includes(item.id);
             return (
               <motion.div

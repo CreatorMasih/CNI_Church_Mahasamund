@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Sparkles, Users, Heart, BookOpen, Music, ShieldCheck, HandHeart, ArrowUpRight } from 'lucide-react';
-import { MINISTRIES } from '../data/churchData';
+import { useCms } from '../context/CmsContext';
 
 const MINISTRY_ICONS = {
   youth: Users,
@@ -13,6 +13,8 @@ const MINISTRY_ICONS = {
 };
 
 export default function Ministries() {
+  const { data } = useCms();
+  const ministries = data.ministries || [];
   return (
     <section id="ministries" className="py-20 sm:py-28 lg:py-32 relative overflow-hidden" style={{ background: 'linear-gradient(180deg, #F6F1E7 0%, #FFFDF8 50%, #F0E8D7 100%)' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">

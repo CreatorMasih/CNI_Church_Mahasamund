@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Maximize2, X, ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
-import { GALLERY_ITEMS } from '../data/churchData';
+import { useCms } from '../context/CmsContext';
 
 const CATEGORIES = ['ALL', 'WORSHIP', 'CELEBRATIONS', 'YOUTH', 'FELLOWSHIP', 'OUTREACH'];
 
 export default function Gallery() {
+  const { data } = useCms();
   const [activeCategory, setActiveCategory] = useState('ALL');
   const [lightboxIndex, setLightboxIndex] = useState(null);
 
+  const items = data.gallery || [];
   const filteredItems = activeCategory === 'ALL'
-    ? GALLERY_ITEMS
-    : GALLERY_ITEMS.filter((item) => {
+    ? items
+    : items.filter((item) => {
         if (activeCategory === 'CELEBRATIONS') return item.category === 'Celebration' || item.category === 'Christmas' || item.category === 'Easter';
         if (activeCategory === 'OUTREACH') return item.category === 'Community';
         return item.category.toUpperCase() === activeCategory;

@@ -1,9 +1,13 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Play, Sparkles, Clock, Volume2, BookOpen } from 'lucide-react';
-import { SERMONS, IMAGES } from '../data/churchData';
+import { useCms } from '../context/CmsContext';
 
 export default function Sermons({ onOpenVideo }) {
+  const { data } = useCms();
+  const sermons = data.sermons || {};
+  const featured = sermons.featured || {};
+  const recent = sermons.recent || [];
   return (
     <section id="sermons" className="py-20 sm:py-28 lg:py-32 relative" style={{ background: '#F6F1E7' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -29,15 +33,15 @@ export default function Sermons({ onOpenVideo }) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.75 }}
-          onClick={() => onOpenVideo(SERMONS.featured.title, SERMONS.featured.date)}
+          onClick={() => onOpenVideo(featured.title, featured.date)}
           className="group relative rounded-3xl overflow-hidden cursor-pointer shadow-xl mb-12 flex flex-col lg:flex-row border border-gold/30"
           style={{ background: '#FFFDF8' }}
         >
           {/* Featured Visual */}
           <div className="lg:w-7/12 relative overflow-hidden" style={{ minHeight: 'clamp(240px, 45vw, 420px)' }}>
             <img
-              src={IMAGES.sanctuary}
-              alt={SERMONS.featured.title}
+              src={featured.image}
+              alt={featured.title}
               loading="lazy"
               className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
             />
@@ -68,23 +72,23 @@ export default function Sermons({ onOpenVideo }) {
             <div>
               <div className="flex items-center space-x-2 mb-3">
                 <span className="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-burgundy/10 text-[#7E2634]">
-                  {SERMONS.featured.series}
+                  {featured.series}
                 </span>
                 <span className="text-xs font-semibold text-[#B8944A]">
-                  {SERMONS.featured.duration}
+                  {featured.duration}
                 </span>
               </div>
 
               <h3 className="font-serif font-bold text-[#17202B] text-2xl sm:text-3xl mb-3 leading-snug group-hover:text-[#7E2634] transition-colors">
-                {SERMONS.featured.title}
+                {featured.title}
               </h3>
 
               <p className="text-xs font-bold uppercase tracking-wider mb-4 text-[#7E2634]">
-                {SERMONS.featured.speaker} — {SERMONS.featured.date}
+                {featured.speaker} — {featured.date}
               </p>
 
               <p className="text-xs sm:text-sm text-[#6E6A63] leading-relaxed mb-6">
-                {SERMONS.featured.description}
+                {featured.description}
               </p>
             </div>
 
@@ -109,7 +113,7 @@ export default function Sermons({ onOpenVideo }) {
           </div>
 
           <div className="flex items-center gap-5 overflow-x-auto pb-4 scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0">
-            {SERMONS.recent.map((serm, index) => (
+            {recent.map((serm, index) => (
               <motion.div
                 key={serm.id}
                 initial={{ opacity: 0, x: 20 }}

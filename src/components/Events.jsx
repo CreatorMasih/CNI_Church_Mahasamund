@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Calendar, Clock, MapPin, ArrowRight, X, Sparkles } from 'lucide-react';
-import { EVENTS } from '../data/churchData';
+import { useCms } from '../context/CmsContext';
 
 export default function Events() {
+  const { data } = useCms();
   const [selectedEvent, setSelectedEvent] = useState(null);
 
-  const featuredEvent = EVENTS[0];
-  const upcomingEvents = EVENTS.slice(1);
+  const events = data.events || [];
+  const featuredEvent = events[0];
+  const upcomingEvents = events.slice(1);
 
   return (
     <section id="events" className="py-20 sm:py-28 lg:py-32 relative" style={{ background: '#F6F1E7' }}>
