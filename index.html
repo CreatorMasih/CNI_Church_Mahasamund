@@ -2,14 +2,22 @@
 <html lang="en" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/cross-icon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Official Favicon & App Icons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#7E2634" />
+    <meta name="msapplication-TileColor" content="#7E2634" />
 
     <!-- Main Primary Meta Tags -->
     <title>CNI Church Mahasamund | Church Services, Events & Community</title>
     <meta name="title" content="CNI Church Mahasamund | Church Services, Events & Community" />
     <meta name="description" content="Official website of CNI Church Mahasamund. Explore church services, upcoming events, worship, ministries, sermons, prayer requests and community life. Everyone is welcome." />
-    <meta name="keywords" content="CNI Church Mahasamund, Church in Mahasamund, Christian church in Mahasamund, Church services in Mahasamund, Worship and community in Mahasamund, St. Peters Church Mahasamund" />
+    <meta name="keywords" content="CNI Church Mahasamund, Church in Mahasamund, Christian church in Mahasamund, Church services in Mahasamund, Worship and community in Mahasamund, St. Peter's Church CNI Mahasamund" />
     <meta name="robots" content="index, follow" />
     <meta name="author" content="CNI Church Mahasamund" />
 
@@ -36,15 +44,26 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
 
-    <!-- JSON-LD Structured Data Schema for CNI Church Mahasamund -->
+    <!-- 1. WebSite JSON-LD Schema (Google Search Site Name Signals) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "CNI Church Mahasamund",
+      "alternateName": "St. Peter's Church CNI Mahasamund",
+      "url": "https://cni-church-mahasamund.vercel.app/"
+    }
+    </script>
+
+    <!-- 2. Church / PlaceOfWorship JSON-LD Schema -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "Church",
       "name": "CNI Church Mahasamund",
-      "alternateName": "St. Peter's Church Mahasamund",
+      "alternateName": "St. Peter's Church CNI Mahasamund",
       "url": "https://cni-church-mahasamund.vercel.app/",
-      "logo": "https://cni-church-mahasamund.vercel.app/church.jpg",
+      "logo": "https://cni-church-mahasamund.vercel.app/apple-touch-icon.png",
       "image": "https://cni-church-mahasamund.vercel.app/church.jpg",
       "description": "Official website of CNI Church Mahasamund (St. Peter's Church). A sacred place of faith, hope, worship, and Christian community since 1909.",
       "address": {
