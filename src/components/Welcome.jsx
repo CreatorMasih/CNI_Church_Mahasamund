@@ -134,7 +134,7 @@ export default function Welcome({ onOpenVisit }) {
               style={{ border: '4px solid #FFFDF8' }}
             >
               <img
-                src={CHURCH_PHOTO}
+                src={churchPhoto}
                 alt="St. Peter's Church — CNI Church Mahasamund"
                 loading="lazy"
                 className="w-full object-cover block transition-transform duration-700 ease-out group-hover:scale-105"
