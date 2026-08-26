@@ -1,0 +1,131 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+    height: 100%;
+  }
+
+  body {
+    background-color: #F6F1E7;
+    color: #17202B;
+    font-family: 'Jost', 'Inter', 'Manrope', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, .font-serif {
+    font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+  }
+
+  /* Touch device target sizing */
+  @media (pointer: coarse) {
+    a, button {
+      min-height: 44px;
+    }
+  }
+}
+
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Sacred Gold & Burgundy Gradients */
+.text-gold-gradient {
+  background: linear-gradient(135deg, #D8BC76 0%, #B8944A 50%, #8C6E2E 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-burgundy-gradient {
+  background: linear-gradient(135deg, #A13A4A 0%, #7E2634 50%, #4E1822 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.bg-gold-gradient {
+  background: linear-gradient(135deg, #D8BC76 0%, #B8944A 100%);
+}
+
+.bg-burgundy-gradient {
+  background: linear-gradient(135deg, #7E2634 0%, #4E1822 100%);
+}
+
+/* Glassmorphism panels - Warm Ivory & Charcoal variants */
+.glass-panel-warm {
+  background: rgba(255, 253, 248, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(184, 148, 74, 0.25);
+}
+
+.glass-panel-burgundy {
+  background: rgba(78, 24, 34, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(216, 188, 118, 0.3);
+}
+
+.glass-panel-charcoal {
+  background: rgba(23, 32, 43, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(184, 148, 74, 0.25);
+}
+
+/* Candle flame animation */
+@keyframes flameFlicker {
+  0%, 100% { transform: scale(1) rotate(-1deg); opacity: 0.95; }
+  25% { transform: scale(1.08) rotate(1deg); opacity: 1; }
+  50% { transform: scale(0.96) rotate(-0.5deg); opacity: 0.88; }
+  75% { transform: scale(1.04) rotate(0.8deg); opacity: 0.98; }
+}
+
+.animate-flame {
+  animation: flameFlicker 2.5s ease-in-out infinite;
+}
+
+/* Light ray effect */
+@keyframes lightRayDrift {
+  0%, 100% { opacity: 0.18; transform: rotate(-12deg) scaleY(1); }
+  50% { opacity: 0.38; transform: rotate(-9deg) scaleY(1.04); }
+}
+
+.light-ray-drift {
+  animation: lightRayDrift 11s ease-in-out infinite;
+}
+
+/* Active scale feedback */
+.active\:scale-98:active {
+  transform: scale(0.98);
+}
+
+/* Custom Scrollbar */
+@media (pointer: fine) {
+  ::-webkit-scrollbar { width: 7px; }
+  ::-webkit-scrollbar-track { background: #F6F1E7; }
+  ::-webkit-scrollbar-thumb { background: #B8944A; border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: #7E2634; }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
