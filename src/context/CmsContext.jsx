@@ -3,8 +3,8 @@ import { IMAGES, EVENTS, MINISTRIES, GALLERY_ITEMS, SERMONS, MEMORIALS, WORSHIP_
 
 const CmsContext = createContext(null);
 
-const STORAGE_KEY = 'cni_church_cms_data_v2';
-const AUTH_KEY = 'cni_church_admin_auth_v2';
+const STORAGE_KEY = 'cni_church_cms_data_v3';
+const AUTH_KEY = 'cni_church_admin_auth_v3';
 
 // Default Seed State
 const DEFAULT_CMS_DATA = {
@@ -17,7 +17,7 @@ const DEFAULT_CMS_DATA = {
     verseReference: '— Matthew 18:20',
     primaryCtaText: 'EXPLORE OUR CHURCH',
     secondaryCtaText: 'WATCH OUR STORY',
-    image: IMAGES.cniChurch,
+    image: '/church.jpg',
     establishedYear: '1909',
   },
   about: {
@@ -28,7 +28,7 @@ const DEFAULT_CMS_DATA = {
     paragraph2: "Whether you are seeking spiritual sanctuary, meaningful fellowship, youth guidance, or a place to serve your neighbors, you will find open doors and warm hearts waiting for you.",
     scripture: 'Let all that you do be done in love.',
     scriptureReference: '— 1 Cor 16:14',
-    photo: IMAGES.cniChurch,
+    photo: '/church.jpg',
     established: '1909',
     diocese: 'CNI Diocese of C.G.',
     familiesCount: '100+ Families',
@@ -42,7 +42,7 @@ const DEFAULT_CMS_DATA = {
     verseOfDay: 'The Lord is my shepherd; I shall not want.',
     verseOfDayReference: '— Psalm 23:1',
   },
-  events: EVENTS,
+  events: EVENTS || [],
   announcements: [
     {
       id: 'ann-1',
@@ -57,9 +57,9 @@ const DEFAULT_CMS_DATA = {
   worshipSongs: [
     WORSHIP_SONG
   ],
-  gallery: GALLERY_ITEMS,
-  ministries: MINISTRIES,
-  sermons: SERMONS,
+  gallery: GALLERY_ITEMS || [],
+  ministries: MINISTRIES || [],
+  sermons: SERMONS || { featured: {}, recent: [] },
   prayers: [
     {
       id: 'pr-1',
@@ -80,7 +80,7 @@ const DEFAULT_CMS_DATA = {
       createdAt: '2026-08-26 10:15',
     }
   ],
-  memorials: MEMORIALS,
+  memorials: MEMORIALS || [],
   settings: {
     churchName: 'CNI CHURCH MAHASAMUND',
     fullChurchName: "St. Peter's Church (CNI) Mahasamund",
@@ -116,18 +116,33 @@ const DEFAULT_CMS_DATA = {
   ],
   activityLog: [
     { id: 'act-1', text: 'System initialized & default data loaded', time: 'Just now', type: 'system' },
-    { id: 'act-2', text: 'New confidential prayer request received', time: 'Today 10:15', type: 'prayer' },
   ],
 };
 
 export function CmsProvider({ children }) {
-  // ── CMS State Initialization with LocalStorage Persistence ──
+  // Deep merging with default data to prevent any missing property crashes
   const [data, setData] = useState(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
         const parsed = JSON.parse(saved);
-        return { ...DEFAULT_CMS_DATA, ...parsed };
+        return {
+          ...DEFAULT_CMS_DATA,
+          ...parsed,
+          hero: { ...DEFAULT_CMS_DATA.hero, ...(parsed.hero || {}) },
+          about: { ...DEFAULT_CMS_DATA.about, ...(parsed.about || {}) },
+          serviceInfo: { ...DEFAULT_CMS_DATA.serviceInfo, ...(parsed.serviceInfo || {}) },
+          settings: { ...DEFAULT_CMS_DATA.settings, ...(parsed.settings || {}) },
+          sectionToggles: { ...DEFAULT_CMS_DATA.sectionToggles, ...(parsed.sectionToggles || {}) },
+          events: Array.isArray(parsed.events) && parsed.events.length ? parsed.events : DEFAULT_CMS_DATA.events,
+          announcements: Array.isArray(parsed.announcements) ? parsed.announcements : DEFAULT_CMS_DATA.announcements,
+          worshipSongs: Array.isArray(parsed.worshipSongs) ? parsed.worshipSongs : DEFAULT_CMS_DATA.worshipSongs,
+          gallery: Array.isArray(parsed.gallery) ? parsed.gallery : DEFAULT_CMS_DATA.gallery,
+          ministries: Array.isArray(parsed.ministries) ? parsed.ministries : DEFAULT_CMS_DATA.ministries,
+          sermons: parsed.sermons && parsed.sermons.featured ? parsed.sermons : DEFAULT_CMS_DATA.sermons,
+          prayers: Array.isArray(parsed.prayers) ? parsed.prayers : DEFAULT_CMS_DATA.prayers,
+          memorials: Array.isArray(parsed.memorials) ? parsed.memorials : DEFAULT_CMS_DATA.memorials,
+        };
       }
     } catch (err) {
       console.error('Failed to load saved CMS data:', err);
@@ -135,7 +150,6 @@ export function CmsProvider({ children }) {
     return DEFAULT_CMS_DATA;
   });
 
-  // ── Authentication State ──
   const [auth, setAuth] = useState(() => {
     try {
       const savedAuth = localStorage.getItem(AUTH_KEY);
@@ -146,7 +160,6 @@ export function CmsProvider({ children }) {
     return { isAuthenticated: false, user: null };
   });
 
-  // Save data to localStorage on changes
   useEffect(() => {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
@@ -155,7 +168,6 @@ export function CmsProvider({ children }) {
     }
   }, [data]);
 
-  // Save auth to localStorage on changes
   useEffect(() => {
     try {
       localStorage.setItem(AUTH_KEY, JSON.stringify(auth));
@@ -164,9 +176,7 @@ export function CmsProvider({ children }) {
     }
   }, [auth]);
 
-  // ── Auth Actions ──
   const login = (email, password) => {
-    // Admin credentials validation
     if ((email === 'admin@cnichurchmahasamund.org' || email === 'admin') && password === 'admin123') {
       const user = {
         name: 'Rev. Presbyter / Administrator',
@@ -177,7 +187,7 @@ export function CmsProvider({ children }) {
       logActivity('Admin logged in to Dashboard', 'auth');
       return { success: true };
     }
-    return { success: false, error: 'Invalid admin email or password. Use admin@cnichurchmahasamund.org / admin123' };
+    return { success: false, error: 'Invalid admin credentials. Use admin@cnichurchmahasamund.org / admin123' };
   };
 
   const logout = () => {
@@ -185,7 +195,6 @@ export function CmsProvider({ children }) {
     setAuth({ isAuthenticated: false, user: null });
   };
 
-  // ── Activity Log Helper ──
   const logActivity = (text, type = 'update') => {
     const newLog = {
       id: `act-${Date.now()}`,
@@ -199,31 +208,25 @@ export function CmsProvider({ children }) {
     }));
   };
 
-  // ── CMS Updater Functions ──
-
-  // Hero Section Update
   const updateHero = (updatedHero) => {
     setData((prev) => ({ ...prev, hero: { ...prev.hero, ...updatedHero } }));
     logActivity('Updated Hero section details');
   };
 
-  // About Section Update
   const updateAbout = (updatedAbout) => {
     setData((prev) => ({ ...prev, about: { ...prev.about, ...updatedAbout } }));
-    logActivity('Updated About & Story section');
+    logActivity('Updated About section');
   };
 
-  // Service Info Update
   const updateServiceInfo = (updatedService) => {
     setData((prev) => ({ ...prev, serviceInfo: { ...prev.serviceInfo, ...updatedService } }));
-    logActivity('Updated Service Info & Timings');
+    logActivity('Updated Service Info');
   };
 
-  // Events CRUD
   const addEvent = (newEvent) => {
     const item = { ...newEvent, id: Date.now() };
     setData((prev) => ({ ...prev, events: [item, ...prev.events] }));
-    logActivity(`Added new event: "${newEvent.title}"`);
+    logActivity(`Added event "${newEvent.title}"`);
   };
 
   const updateEvent = (id, updatedEvent) => {
@@ -242,7 +245,6 @@ export function CmsProvider({ children }) {
     logActivity(`Deleted event ID ${id}`);
   };
 
-  // Announcements CRUD
   const addAnnouncement = (newAnn) => {
     const item = { ...newAnn, id: `ann-${Date.now()}` };
     setData((prev) => ({ ...prev, announcements: [item, ...prev.announcements] }));
@@ -265,7 +267,6 @@ export function CmsProvider({ children }) {
     logActivity(`Deleted announcement "${id}"`);
   };
 
-  // Worship Songs CRUD
   const addWorshipSong = (song) => {
     const item = { ...song, id: `song-${Date.now()}` };
     setData((prev) => ({ ...prev, worshipSongs: [item, ...prev.worshipSongs] }));
@@ -288,7 +289,6 @@ export function CmsProvider({ children }) {
     logActivity(`Deleted worship song "${id}"`);
   };
 
-  // Gallery CRUD
   const addGalleryItem = (newItem) => {
     const item = { ...newItem, id: Date.now() };
     setData((prev) => ({ ...prev, gallery: [item, ...prev.gallery] }));
@@ -311,7 +311,6 @@ export function CmsProvider({ children }) {
     logActivity(`Deleted Gallery photo ${id}`);
   };
 
-  // Ministries CRUD
   const addMinistry = (newMin) => {
     const item = { ...newMin, id: `min-${Date.now()}` };
     setData((prev) => ({ ...prev, ministries: [...prev.ministries, item] }));
@@ -334,14 +333,13 @@ export function CmsProvider({ children }) {
     logActivity(`Deleted Ministry "${id}"`);
   };
 
-  // Sermons CRUD
   const addSermon = (newSermon) => {
     const item = { ...newSermon, id: `serm-${Date.now()}` };
     setData((prev) => ({
       ...prev,
       sermons: {
         ...prev.sermons,
-        recent: [item, ...prev.sermons.recent],
+        recent: [item, ...(prev.sermons?.recent || [])],
       },
     }));
     logActivity(`Added sermon: "${newSermon.title}"`);
@@ -349,14 +347,14 @@ export function CmsProvider({ children }) {
 
   const updateSermon = (id, updatedSermon) => {
     setData((prev) => {
-      if (prev.sermons.featured.id === id) {
+      if (prev.sermons?.featured?.id === id) {
         return { ...prev, sermons: { ...prev.sermons, featured: { ...prev.sermons.featured, ...updatedSermon } } };
       }
       return {
         ...prev,
         sermons: {
           ...prev.sermons,
-          recent: prev.sermons.recent.map((s) => (s.id === id ? { ...s, ...updatedSermon } : s)),
+          recent: (prev.sermons?.recent || []).map((s) => (s.id === id ? { ...s, ...updatedSermon } : s)),
         },
       };
     });
@@ -368,13 +366,12 @@ export function CmsProvider({ children }) {
       ...prev,
       sermons: {
         ...prev.sermons,
-        recent: prev.sermons.recent.filter((s) => s.id !== id),
+        recent: (prev.sermons?.recent || []).filter((s) => s.id !== id),
       },
     }));
     logActivity(`Deleted sermon "${id}"`);
   };
 
-  // Prayer Request Public Submit & Admin Status Management
   const addPrayerRequest = (publicRequest) => {
     const newReq = {
       id: `pr-${Date.now()}`,
@@ -387,7 +384,7 @@ export function CmsProvider({ children }) {
     };
     setData((prev) => ({
       ...prev,
-      prayers: [newReq, ...prev.prayers],
+      prayers: [newReq, ...(prev.prayers || [])],
     }));
     logActivity(`New prayer request received from ${newReq.name}`, 'prayer');
     return newReq;
@@ -396,7 +393,7 @@ export function CmsProvider({ children }) {
   const updatePrayerStatus = (id, status) => {
     setData((prev) => ({
       ...prev,
-      prayers: prev.prayers.map((p) => (p.id === id ? { ...p, status } : p)),
+      prayers: (prev.prayers || []).map((p) => (p.id === id ? { ...p, status } : p)),
     }));
     logActivity(`Updated prayer request status to ${status}`);
   };
@@ -404,22 +401,21 @@ export function CmsProvider({ children }) {
   const deletePrayerRequest = (id) => {
     setData((prev) => ({
       ...prev,
-      prayers: prev.prayers.filter((p) => p.id !== id),
+      prayers: (prev.prayers || []).filter((p) => p.id !== id),
     }));
     logActivity(`Deleted prayer request ${id}`);
   };
 
-  // Memorials CRUD
   const addMemorial = (newMem) => {
     const item = { ...newMem, id: Date.now() };
-    setData((prev) => ({ ...prev, memorials: [...prev.memorials, item] }));
+    setData((prev) => ({ ...prev, memorials: [...(prev.memorials || []), item] }));
     logActivity(`Added Memorial entry for "${newMem.name}"`);
   };
 
   const updateMemorial = (id, updatedMem) => {
     setData((prev) => ({
       ...prev,
-      memorials: prev.memorials.map((m) => (m.id === id ? { ...m, ...updatedMem } : m)),
+      memorials: (prev.memorials || []).map((m) => (m.id === id ? { ...m, ...updatedMem } : m)),
     }));
     logActivity(`Updated Memorial entry ${id}`);
   };
@@ -427,43 +423,40 @@ export function CmsProvider({ children }) {
   const deleteMemorial = (id) => {
     setData((prev) => ({
       ...prev,
-      memorials: prev.memorials.filter((m) => m.id !== id),
+      memorials: (prev.memorials || []).filter((m) => m.id !== id),
     }));
     logActivity(`Deleted Memorial entry ${id}`);
   };
 
-  // Church Settings Update
   const updateSettings = (newSettings) => {
     setData((prev) => ({ ...prev, settings: { ...prev.settings, ...newSettings } }));
-    logActivity('Updated Church Settings & Contact details');
+    logActivity('Updated Church Settings');
   };
 
-  // Section Toggles
   const toggleSection = (sectionKey) => {
     setData((prev) => ({
       ...prev,
       sectionToggles: {
         ...prev.sectionToggles,
-        [sectionKey]: !prev.sectionToggles[sectionKey],
+        [sectionKey]: !prev.sectionToggles?.[sectionKey],
       },
     }));
     logActivity(`Toggled section "${sectionKey}" visibility`);
   };
 
-  // Media Library CRUD
   const addMediaItem = (mediaItem) => {
     const item = { ...mediaItem, id: `m-${Date.now()}` };
-    setData((prev) => ({ ...prev, media: [item, ...prev.media] }));
+    setData((prev) => ({ ...prev, media: [item, ...(prev.media || [])] }));
     logActivity(`Uploaded media asset: "${mediaItem.name}"`);
   };
 
   const deleteMediaItem = (id) => {
-    setData((prev) => ({ ...prev, media: prev.media.filter((m) => m.id !== id) }));
+    setData((prev) => ({ ...prev, media: (prev.media || []).filter((m) => m.id !== id) }));
     logActivity(`Deleted media asset ${id}`);
   };
 
-  // Reset to Default Seed Data
   const resetToDefaults = () => {
+    localStorage.removeItem(STORAGE_KEY);
     setData(DEFAULT_CMS_DATA);
     logActivity('Reset all CMS content to factory seed default', 'system');
   };
